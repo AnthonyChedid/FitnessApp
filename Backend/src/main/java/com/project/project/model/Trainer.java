@@ -30,6 +30,7 @@ public class Trainer {
 
     private String location;
     private String email;
+    private String password;
     private String instagram;
     private String number;
     private String image;

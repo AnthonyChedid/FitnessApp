@@ -30,15 +30,24 @@ const useStyles = makeStyles((theme) => ({
 
 function Navbar() {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  const [openLogin, setOpenLogin] = React.useState(false);
+  const [openSignin, setOpenSignin] = React.useState(false);
 
   const handleClickOpen=() => {
-    setOpen(true);
+    setOpenLogin(true);
   }
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleLoginClose = () => {
+    setOpenLogin(false);
   };
+
+  const handleSignin=()=>{
+    setOpenSignin(true);
+    setOpenLogin(false);
+  }
+  const handleSigninClose=()=>{
+    setOpenSignin(false);
+  }
 
   return (
     <div className={classes.root}>
@@ -57,12 +66,13 @@ function Navbar() {
           
         </Toolbar>
       </AppBar>
+      
       <div>
-      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+      <Dialog open={openLogin} onClose={handleLoginClose} aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title">Log in</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Please you already have an account login if not create a new one
+            If you already have an account login if not create a new one
           </DialogContentText>
           <TextField
             autoFocus
@@ -82,14 +92,64 @@ function Navbar() {
         </DialogContent>
         
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleLoginClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleLoginClose} color="primary">
             Log in
           </Button>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleSignin} color="primary">
             Sign in
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+
+    <div>
+      <Dialog open={openSignin} onClose={handleSigninClose} aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title">Sign in</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Create new account
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="firstName"
+            label="First Name"
+            fullWidth
+            
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            id="lastName"
+            label="Last Name"
+            fullWidth
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            id="email"
+            label="Email Address"
+            type="email"
+            fullWidth
+          />
+          <TextField
+            margin="dense"
+            id="pass"
+            label="Password"
+            type="password"
+            fullWidth
+          />
+        </DialogContent>
+        
+        <DialogActions>
+          <Button onClick={handleSigninClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleSigninClose} color="primary">
+            Create Account
           </Button>
         </DialogActions>
       </Dialog>
