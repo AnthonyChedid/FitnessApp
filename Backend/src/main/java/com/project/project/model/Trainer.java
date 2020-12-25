@@ -29,5 +29,10 @@ public class Trainer {
     Set<Category> categories;
 
     private String location;
+    private String email;
+    private String instagram;
+    private String number;
+    private String image;
+
 
 }

@@ -6,6 +6,12 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import {Link} from 'react-router-dom';
+import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,6 +30,15 @@ const useStyles = makeStyles((theme) => ({
 
 function Navbar() {
   const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen=() => {
+    setOpen(true);
+  }
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <div className={classes.root}>
@@ -33,16 +48,52 @@ function Navbar() {
            <Link to="/"><h2>Getfit</h2></Link>
           </Typography>
           <Box display='flex' flexGrow={1}>
-          {/* <Typography variant="h6" className={classes.title}>
-            Getfit
-          </Typography> */}
+          
           </Box>
-          <Button color="inherit">About us</Button>
-          <Button color="inherit">Contact us</Button>
-          <Button color="inherit">Trainers</Button>
-          <Button color="inherit">Login</Button>
+          <Link to="/aboutus"><Button color="inherit">About us</Button></Link>
+          <Link to="/contactus"><Button color="inherit">Contact us</Button></Link>
+          <Link to="/trainers"><Button color="inherit">Trainers</Button></Link>
+          <Button color="inherit" onClick={handleClickOpen}>Login</Button>
+          
         </Toolbar>
       </AppBar>
+      <div>
+      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Please you already have an account login if not create a new one
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Email Address"
+            type="email"
+            fullWidth
+          />
+          <TextField
+            margin="dense"
+            id="pass"
+            label="Password"
+            type="password"
+            fullWidth
+          />
+        </DialogContent>
+        
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleClose} color="primary">
+            Log in
+          </Button>
+          <Button onClick={handleClose} color="primary">
+            Sign in
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
     </div>
   );
 }
