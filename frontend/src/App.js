@@ -3,6 +3,8 @@ import Navbar from "./Components/Navbar";
 import { createMuiTheme,MuiThemeProvider } from '@material-ui/core/styles';
 import Routing from './Routing';
 import { BrowserRouter as Router,Switch,Route} from 'react-router-dom';
+import Store from './Store';
+import { Provider } from 'react-redux';
 
 const theme = createMuiTheme({
   palette: {
@@ -14,6 +16,7 @@ const theme = createMuiTheme({
 
 function App() {
   return (
+    <Provider store={Store}>
     <div className="App">
       <MuiThemeProvider theme={theme}>
         <Router>
@@ -23,6 +26,7 @@ function App() {
         </Router>
       </MuiThemeProvider>
     </div>
+    </Provider>
   );
 }
 
