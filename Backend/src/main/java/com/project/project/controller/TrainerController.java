@@ -3,10 +3,7 @@ package com.project.project.controller;
 import com.project.project.model.Trainer;
 import com.project.project.repositorty.TrainerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @CrossOrigin(origins ="http://localhost:3000")
@@ -21,6 +18,19 @@ public class TrainerController {
     public List<Trainer> getAllTrainers(){
 
         return trainerRepository.findAll();
+    }
+
+    @GetMapping("/trainers-by-name")
+    public List<Trainer> getTrainersByName(@RequestParam String name){
+
+        return trainerRepository.findByFirstNameStartingWithIgnoreCase(name);
+    }
+
+    @GetMapping("/trainers-by-type")
+    @CrossOrigin(origins ="http://localhost:3000")
+    public List<Trainer> getTrainersByType(@RequestParam String type){
+
+        return trainerRepository.findByCategories_Name(type);
     }
 
 

@@ -1,10 +1,24 @@
 import {call,put,takeEvery} from 'redux-saga/effects';
-import {getTrainersApi} from './apiCalls';
+import {getTrainersApi,getByNameApi,getByTypeApi,getByNameTypeApi} from './apiCalls';
 
 function* fetchTrainers(action){
     
     try{
-        const trainers=yield call(getTrainersApi);
+        let trainers;
+        
+        if(action.payload.searchText==="" && action.payload.type===""){
+            trainers=yield call(getTrainersApi);
+        }
+        else if(action.payload.searchText!="" && action.payload.type===""){
+            trainers =yield call(getByNameApi,action.payload.searchText);
+        }
+        else if(action.payload.searchText==="" && action.payload.type!=""){
+            trainers =yield call(getByTypeApi,action.payload.type);
+        }
+        else if(action.payload.searchText!=="" && action.payload.type!==""){
+            trainers =yield call(getByNameTypeApi,action.payload.searchText,action.payload.type);
+        }
+
         yield put({type: 'FETCH_TRAINERS_SUCCESS',trainers:trainers});
 
     }catch(e){

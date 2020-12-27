@@ -121,14 +121,14 @@ function Navbar() {
             
           />
           <TextField
-            autoFocus
+            
             margin="dense"
             id="lastName"
             label="Last Name"
             fullWidth
           />
           <TextField
-            autoFocus
+            
             margin="dense"
             id="email"
             label="Email Address"

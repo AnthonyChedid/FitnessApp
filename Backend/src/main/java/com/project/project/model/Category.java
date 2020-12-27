@@ -16,8 +16,5 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long category_id;
     private String name;
-
-    @ManyToMany(mappedBy = "categories")
-    Set<Trainer> trainers;
     
 }

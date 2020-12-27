@@ -6,11 +6,15 @@ import { BrowserRouter as Router,Switch,Route} from 'react-router-dom';
 import Store from './Store';
 import { Provider } from 'react-redux';
 
+
 const theme = createMuiTheme({
   palette: {
     primary: {
       main: '#000000',
     },
+    secondary:{
+      main: '#424242',
+    }
   },
 });
 
