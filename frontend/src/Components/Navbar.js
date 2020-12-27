@@ -1,4 +1,5 @@
-import React from 'react';
+import React,{useEffect} from 'react'
+import {useSelector, useDispatch} from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -13,6 +14,16 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+
+import {getCategories} from '../actions/CategoriesAction';
+import ImageUploader from 'react-images-upload';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -25,13 +36,32 @@ const useStyles = makeStyles((theme) => ({
   },
   cls:{
     width:'100%',
-  }
+  },
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    width: 200,
+  },
 }));
 
 function Navbar() {
-  const classes = useStyles();
+  const dispatch = useDispatch();
   const [openLogin, setOpenLogin] = React.useState(false);
   const [openSignin, setOpenSignin] = React.useState(false);
+  const [userState, setUserState] = React.useState('user');
+  const categories = useSelector(state => state.categories.categories);
+  let state2={};
+  { categories.map((cat) => (
+    state2[cat.name]=false
+  ))}
+  const [state, setState] = React.useState(state2);
+  const [image,setImage] = React.useState();
+  
+  const classes = useStyles();
 
   const handleClickOpen=() => {
     setOpenLogin(true);
@@ -48,6 +78,23 @@ function Navbar() {
   const handleSigninClose=()=>{
     setOpenSignin(false);
   }
+
+  const handleChange = (event) => {
+    setUserState(event.target.value);
+  };
+  
+  const handleCheckboxChange = (event) => {
+    setState({ ...state, [event.target.name]: event.target.checked });
+  };
+
+  const onDrop=(picture) => {
+    setState(picture);
+}
+
+
+  useEffect(()=>{
+    dispatch(getCategories());
+},[]);
 
   return (
     <div className={classes.root}>
@@ -107,18 +154,24 @@ function Navbar() {
 
     <div>
       <Dialog open={openSignin} onClose={handleSigninClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Sign in</DialogTitle>
+        <DialogTitle id="form-dialog-title">Sign up</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            Create new account
-          </DialogContentText>
+
+        <FormControl component="fieldset">
+          <FormLabel component="legend">Account Type</FormLabel>
+          <RadioGroup aria-label="Type" value={userState} onChange={handleChange}>
+            <FormControlLabel value="User" control={<Radio />} label="User" />
+            <FormControlLabel value="Trainer" control={<Radio />} label="Trainer" />
+          </RadioGroup>
+        </FormControl>
+
+
           <TextField
             autoFocus
             margin="dense"
             id="firstName"
             label="First Name"
             fullWidth
-            
           />
           <TextField
             
@@ -127,6 +180,30 @@ function Navbar() {
             label="Last Name"
             fullWidth
           />
+          <br/><br/>
+
+
+          <form className={classes.container} noValidate>
+            <TextField
+              id="date"
+              label="Birthday"
+              type="date"
+              className={classes.textField}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+          </form>
+
+          <TextField
+            
+            margin="dense"
+            id="location"
+            label="Location"
+            type="location"
+            fullWidth
+          />
+
           <TextField
             
             margin="dense"
@@ -135,6 +212,7 @@ function Navbar() {
             type="email"
             fullWidth
           />
+
           <TextField
             margin="dense"
             id="pass"
@@ -142,6 +220,27 @@ function Navbar() {
             type="password"
             fullWidth
           />
+          
+          {(userState==="Trainer") ? categories.map((cat) => (
+            <FormControlLabel
+              control={<Checkbox checked={state[cat.name]} onChange={handleCheckboxChange} name={cat.name} />}
+              label={cat.name}
+            />)
+            ) : console.log("machi")}
+          {(userState==="Trainer") ? 
+            <ImageUploader
+            singleImage={true}
+            withPreview={true}
+            withIcon={true}
+            buttonText="Choose Image"
+            label="Max file size: 5mb, accepted: jpg, png"
+            buttonText='Choose images'
+            onChange={onDrop}
+            imgExtension={['.jpg', '.png']}
+            maxFileSize={5242880}/>
+          
+          : console.log("machi kmn")}
+          
         </DialogContent>
         
         <DialogActions>

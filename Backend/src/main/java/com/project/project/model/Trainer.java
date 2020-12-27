@@ -16,9 +16,15 @@ public class Trainer {
     @Column(name="trainer_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long trainer_id;
+
     private String firstName;
     private String lastName;
     private Date dateOfBirth;
+    private String location;
+    private String email;
+    private String password;
+    private String number;
+    private String image;
 
     @ManyToMany
     @JoinTable(
@@ -26,13 +32,5 @@ public class Trainer {
             joinColumns = @JoinColumn(name = "trainer_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     Set<Category> categories;
-
-    private String location;
-    private String email;
-    private String password;
-    private String instagram;
-    private String number;
-    private String image;
-
 
 }

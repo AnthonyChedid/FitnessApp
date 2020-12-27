@@ -52,7 +52,7 @@ export default function Trainers() {
     const loading =useSelector(state => state.trainers.loading);
     const error =useSelector(state => state.trainers.error);
     const categories = useSelector(state => state.categories.categories);
-    console.log("categories",categories);
+    
 
     const [spacing] = React.useState(2);
     const [type, setType] = React.useState("");
