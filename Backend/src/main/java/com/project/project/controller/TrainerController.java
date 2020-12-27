@@ -33,6 +33,13 @@ public class TrainerController {
         return trainerRepository.findByCategories_Name(type);
     }
 
+    @GetMapping("/trainers-by-name_type")
+    @CrossOrigin(origins ="http://localhost:3000")
+    public List<Trainer> getTrainersByNameAndType(@RequestParam String name,@RequestParam String type){
+
+        return trainerRepository.findByFirstNameStartingWithIgnoreCaseAndCategories_Name(name, type);
+    }
+
 
 }
 
