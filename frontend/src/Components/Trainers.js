@@ -11,6 +11,7 @@ import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import Container from '@material-ui/core/Container';
+import {getCategories} from '../actions/CategoriesAction';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -50,6 +51,8 @@ export default function Trainers() {
     const trainers = useSelector(state => state.trainers.trainers)
     const loading =useSelector(state => state.trainers.loading);
     const error =useSelector(state => state.trainers.error);
+    const categories = useSelector(state => state.categories.categories);
+    console.log("categories",categories);
 
     const [spacing] = React.useState(2);
     const [type, setType] = React.useState("");
@@ -72,6 +75,7 @@ export default function Trainers() {
 
     useEffect(()=>{
         dispatch(getTrainers(state));
+        dispatch(getCategories());
     },[]);
     console.log(trainers);
 
@@ -109,8 +113,9 @@ export default function Trainers() {
                                     onChange={HandleChange}
                                     >
                                     <option value={""}>All</option>
-                                    <option value={"Bodybuilding"}>Bodybuilding</option>
-                                    <option value={"Basketball"}>Basketball</option>
+                                    { categories.map((cat) => (
+                                        <option value={cat.name}>{cat.name}</option>
+                                    )) }
                                  </Select>
                         </FormControl>
 

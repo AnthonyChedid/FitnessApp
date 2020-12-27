@@ -45,3 +45,15 @@ export function getByNameTypeApi(name,type){
     .catch((error)=> {throw error})
 
 }
+
+export function getCategoriesApi(){
+    return fetch('http://localhost:8085/api/v1/categories',{
+        method: 'GET',
+        headers:{
+            'Content-Type':'application/json',
+         }
+
+    }).then(response => response.json())
+    .catch((error)=> {throw error})
+
+}

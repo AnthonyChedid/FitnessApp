@@ -11,11 +11,11 @@ import Typography from '@material-ui/core/Typography';
 const useStyles = makeStyles({
   root: {
     maxWidth: 320,
-      minWidth: 320,
-      marginRight:10,
-      marginLeft:30,
-      marginTop:15,
-      marginBottom:15,
+    minWidth: 320,
+    marginRight:10,
+    marginLeft:30,
+    marginTop:15,
+    marginBottom:15,
   },
 });
 
