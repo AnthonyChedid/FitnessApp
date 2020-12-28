@@ -1,11 +1,6 @@
 import React,{useEffect} from 'react'
 import {useSelector, useDispatch} from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import Box from '@material-ui/core/Box';
 import {Link} from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -23,6 +18,10 @@ import Checkbox from '@material-ui/core/Checkbox';
 
 import {getCategories} from '../actions/CategoriesAction';
 import ImageUploader from 'react-images-upload';
+
+import { Button} from './Button' ;
+
+import '../Styling/Navbar.css';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,6 +52,7 @@ function Navbar() {
   const [openLogin, setOpenLogin] = React.useState(false);
   const [openSignin, setOpenSignin] = React.useState(false);
   const [userState, setUserState] = React.useState('user');
+  const [click, setClick] = React.useState(false);
   const categories = useSelector(state => state.categories.categories);
   let state2={};
   { categories.map((cat) => (
@@ -60,6 +60,7 @@ function Navbar() {
   ))}
   const [state, setState] = React.useState(state2);
   const [image,setImage] = React.useState();
+  const [button, setButton] = React.useState(true);
   
   const classes = useStyles();
 
@@ -89,30 +90,73 @@ function Navbar() {
 
   const onDrop=(picture) => {
     setState(picture);
-}
+  };
+
+  const handleClick = () => setClick(!click);
+  const closeMobileMenu = () => setClick(false);
+
+  const showButton = () => {
+    if (window.innerWidth <= 960) {
+      setButton(false);
+    } else {
+      setButton(true);
+    }
+  };
 
 
   useEffect(()=>{
     dispatch(getCategories());
+    showButton();
 },[]);
 
+  window.addEventListener('resize', showButton);
   return (
     <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar>
-          <Typography edge="start" color="inherit">
-           <Link to="/"><h2>Getfit</h2></Link>
-          </Typography>
-          <Box display='flex' flexGrow={1}>
-          
-          </Box>
-          <Link to="/aboutus"><Button color="inherit">About us</Button></Link>
-          <Link to="/contactus"><Button color="inherit">Contact us</Button></Link>
-          <Link to="/trainers"><Button color="inherit">Trainers</Button></Link>
-          <Button color="inherit" onClick={handleClickOpen}>Login</Button>
-          
-        </Toolbar>
-      </AppBar>
+      <nav className='navbar'>
+        <div className='navbar-container'>
+          <Link to='/' className='navbar-logo' onClick={closeMobileMenu}>
+            GetFit  
+            <i class='fas fa-dumbbell fa-fw' />
+          </Link>
+          <div className='menu-icon' onClick={handleClick}>
+            <i className={click ? 'fas fa-times' : 'fas fa-bars'} />
+          </div>
+          <ul className={click ? 'nav-menu active' : 'nav-menu'}>
+            <li className='nav-item'>
+              <Link to="/aboutus" className='nav-links' onClick={closeMobileMenu}>
+                About us
+              </Link>
+            </li>
+            <li className='nav-item'>
+              <Link
+                to='/contactus'
+                className='nav-links'
+                onClick={closeMobileMenu}
+              >
+                Contact us
+              </Link>
+            </li>
+            <li className='nav-item'>
+              <Link
+                to='/trainers'
+                className='nav-links'
+                onClick={closeMobileMenu}
+              >
+                Trainers
+              </Link>
+            </li>
+
+            <li className='nav-item'>
+              <Link
+                className='nav-links'
+                onClick={closeMobileMenu,handleClickOpen}
+              >
+                Sign Up
+              </Link>
+            </li>
+          </ul>
+        </div>
+      </nav>
       
       <div>
       <Dialog open={openLogin} onClose={handleLoginClose} aria-labelledby="form-dialog-title">

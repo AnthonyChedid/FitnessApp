@@ -1,21 +1,14 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-
-
-const useStyles = makeStyles((theme) => ({
-    
-    cls:{
-      width:'100%',
-    }
-  }));
+import Cards from './Cards';
+import HeroSection from './HeroSection';
+import Footer from './Footer';
 
 
 export default function Landing(){
-    const classes = useStyles();
     return (
-        <div>
-            <img src={'landing.jpg'}
-           className={classes.cls}/>
-        </div>
+      <>
+      <HeroSection />
+      <Cards />
+    </>
     );
 }

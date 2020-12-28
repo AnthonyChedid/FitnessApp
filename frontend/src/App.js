@@ -6,6 +6,8 @@ import { BrowserRouter as Router,Switch,Route} from 'react-router-dom';
 import Store from './Store';
 import { Provider } from 'react-redux';
 
+import Footer from './Components/Footer';
+
 
 const theme = createMuiTheme({
   palette: {
@@ -25,8 +27,8 @@ function App() {
       <MuiThemeProvider theme={theme}>
         <Router>
           <Navbar/>
-          <Routing/>
-            
+            <Routing/>
+          <Footer/>
         </Router>
       </MuiThemeProvider>
     </div>
