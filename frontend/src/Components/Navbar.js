@@ -8,13 +8,14 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import Snackbar from '@material-ui/core/Snackbar';
+import Alert from '@material-ui/lab/Alert';
 
 import {getCategories} from '../actions/CategoriesAction';
 import ImageUploader from 'react-images-upload';
@@ -71,8 +72,19 @@ function Navbar() {
   const [password,setPassword]=React.useState("");
   const [image,setImage] = React.useState();
   const [number,setNumber]=React.useState("");
+  const [open, setOpen] = React.useState(false);
+  const [createUserSuccess,setCreateUserSuccess]=React.useState(false);
   
   const classes = useStyles();
+
+
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  };
 
   const handleClickOpen=() => {
     setOpenLogin(true);
@@ -140,6 +152,9 @@ function Navbar() {
   const handleNumber=(e)=>{
     setNumber(e.target.value);
   }
+  const handleSuccessClick=()=>{
+    setCreateUserSuccess(false);
+  }
 
   const handleSigninCreate=()=>{
     setOpenSignin(false);
@@ -152,6 +167,8 @@ function Navbar() {
       var user=postNewUser(firstName,LastName,dateOfBirth,location,email,
         password);
       dispatch(postUser(user));
+      setCreateUserSuccess(true);
+
     }
   }
 
@@ -375,6 +392,11 @@ function Navbar() {
         </DialogActions>
       </Dialog>
     </div>
+    <Snackbar open={createUserSuccess} autoHideDuration={3000} onClose={handleSuccessClick}>
+        <Alert onClose={handleSuccessClick} severity="success">
+          welcome
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

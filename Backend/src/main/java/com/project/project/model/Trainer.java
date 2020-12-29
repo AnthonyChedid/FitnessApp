@@ -33,7 +33,8 @@ public class Trainer {
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     Set<Category> categories;
 
-    public Trainer(String name, Date dateOfBirth, String location, String email, String password, byte[] bytes, Set<Category> categories){
+    public Trainer(){
+
     }
 
     public Trainer(String name, Date dateOfBirth, String location, String email, String password, String number, byte[] image, Set<Category> categories) {
