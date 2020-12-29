@@ -11,9 +11,21 @@ export function postNewTrainer(firstName,lastName,date,location,email,password,n
             result.push(item);
         }
       });
-    let trainer={"name":firstName+lastName,"dateOfBirth":date,"location":location,
-        "email":email,"password":password, "image":image,"categories":result
+    const res= new FormData();
+    res.append('file',image);
+    let trainer={"name":firstName+lastName,
+        "dateOfBirth":date,"location":location,
+        "email":email,"password":password,
+        "number":number,"image":res,"categories":result
     };
     console.log(trainer);
     return trainer;
+}
+
+export function postNewUser(firstName,lastName,date,location,email,password){
+    let user={"firstName":firstName,"lastName":lastName,
+        "dateOfBirth":date,"location":location,
+        "email":email,"password":password,
+    };
+    return user;
 }

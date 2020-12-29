@@ -52,11 +52,19 @@ public class TrainerController {
 
     @PostMapping("/addtrainer")
     @CrossOrigin(origins ="http://localhost:3000")
-    public String createTrainer (@RequestParam String name,@RequestParam Date dateOfBirth,
+    public Trainer createTrainer (@RequestParam String name,@RequestParam Date dateOfBirth,
                                  @RequestParam String location,@RequestParam String email,@RequestParam String password,@RequestParam MultipartFile image,
                                  @RequestParam Set<Category > categories){
-        trainerService.saveTrainer(name,dateOfBirth,location,email,password,image,categories);
-        return "redirect:/";
+
+        try{
+            Trainer trainer=new Trainer(name,dateOfBirth,location,email,password, image.getBytes(), categories);
+            return trainerRepository.save(trainer);
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+            return  null;
+        }
+
     }
 
 

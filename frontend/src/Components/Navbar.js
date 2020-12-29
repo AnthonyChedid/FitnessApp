@@ -22,8 +22,9 @@ import ImageUploader from 'react-images-upload';
 import { Button} from './Button' ;
 
 import '../Styling/Navbar.css';
-import {postNewTrainer} from './SignupFunction';
+import {postNewTrainer,postNewUser} from './SignupFunction';
 import {postTrainer} from '../actions/addTrainerAction'
+import {postUser} from '../actions/addUserAction';
 
 //import postNewTrainer from './SignupFunction';
 
@@ -142,9 +143,16 @@ function Navbar() {
 
   const handleSigninCreate=()=>{
     setOpenSignin(false);
-    var trainer=postNewTrainer(firstName,LastName,dateOfBirth,location,email,
-      password,number,state,image,categories);
-    dispatch(postTrainer(trainer));
+    if(userState==="Trainer"){
+      var trainer=postNewTrainer(firstName,LastName,dateOfBirth,location,email,
+        password,number,state,image,categories);
+      dispatch(postTrainer(trainer));
+    }
+    else{
+      var user=postNewUser(firstName,LastName,dateOfBirth,location,email,
+        password);
+      dispatch(postUser(user));
+    }
   }
 
   let state2={}
