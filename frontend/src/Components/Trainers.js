@@ -75,7 +75,7 @@ export default function Trainers() {
 
     useEffect(()=>{
         dispatch(getTrainers(state));
-        dispatch(getCategories());
+        dispatch(getCategories(""));
     },[]);
     console.log(trainers);
 
@@ -127,15 +127,7 @@ export default function Trainers() {
                         <Button  onClick={HandleSubmit} className={classes.bttn} variant="contained" color="secondary">Search</Button>
                     </Grid>
                 </Grid>
-            </Grid>
-
-
-
-
-
-
-
-
+            </Grid><br/><br/>
 
             <Grid container className={classes.root} spacing={20} >
                 <Grid item xs={12} >
@@ -150,6 +142,7 @@ export default function Trainers() {
                 </Grid>
             </Grid>
             </Container>
+            <br/><br/>
         </div>
     )
 }

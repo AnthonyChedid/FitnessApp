@@ -9,7 +9,7 @@ import java.util.List;
 public interface TrainerRepository extends JpaRepository<Trainer, Long> {
     List<Trainer> findByCategories_Name(String type);
 
-    List<Trainer> findByFirstNameStartingWithIgnoreCase(String name);
+    List<Trainer> findByNameStartingWithIgnoreCase(String name);
 
-    List<Trainer> findByFirstNameStartingWithIgnoreCaseAndCategories_Name(String name, String type);
+    List<Trainer> findByNameStartingWithIgnoreCaseAndCategories_Name(String name, String type);
 }

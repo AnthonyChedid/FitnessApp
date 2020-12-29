@@ -1,10 +1,15 @@
 import {call,put,takeEvery} from 'redux-saga/effects';
-import {getCategoriesApi} from './apiCalls';
+import {getCategoriesApi,getCategoriesByNameApi} from './apiCalls';
 
 function* fetchCategories(action){
-    console.log("saga sahh");
     try{
-        const categories=yield call(getCategoriesApi);
+        let categories
+        if(action.payload !==""){
+            categories=yield call(getCategoriesByNameApi,action.payload);
+        }
+        else{
+            categories=yield call(getCategoriesApi);
+        }
         yield put({type: 'FETCH_CATEGORIES_SUCCESS',categories:categories});
     }catch(e){
         yield put({type: 'FETCH_CATEGORIES_FAILED',message:e.message });

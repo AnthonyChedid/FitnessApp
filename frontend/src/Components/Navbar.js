@@ -22,6 +22,10 @@ import ImageUploader from 'react-images-upload';
 import { Button} from './Button' ;
 
 import '../Styling/Navbar.css';
+import {postNewTrainer} from './SignupFunction';
+import {postTrainer} from '../actions/addTrainerAction'
+
+//import postNewTrainer from './SignupFunction';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -54,13 +58,18 @@ function Navbar() {
   const [userState, setUserState] = React.useState('user');
   const [click, setClick] = React.useState(false);
   const categories = useSelector(state => state.categories.categories);
-  let state2={};
-  { categories.map((cat) => (
-    state2[cat.name]=false
-  ))}
-  const [state, setState] = React.useState(state2);
-  const [image,setImage] = React.useState();
+ 
+  const [state, setState] = React.useState([]);
+  
   const [button, setButton] = React.useState(true);
+  const [firstName,setFirstName]=React.useState("");
+  const [LastName,setLastName]=React.useState("");
+  const [dateOfBirth,setDateOfBirth]=React.useState(new Date());
+  const [location,setLocation]=React.useState("");
+  const [email,setEmail]=React.useState("");
+  const [password,setPassword]=React.useState("");
+  const [image,setImage] = React.useState();
+  const [number,setNumber]=React.useState("");
   
   const classes = useStyles();
 
@@ -75,6 +84,7 @@ function Navbar() {
   const handleSignin=()=>{
     setOpenSignin(true);
     setOpenLogin(false);
+
   }
   const handleSigninClose=()=>{
     setOpenSignin(false);
@@ -85,11 +95,15 @@ function Navbar() {
   };
   
   const handleCheckboxChange = (event) => {
-    setState({ ...state, [event.target.name]: event.target.checked });
+    let tmp=state;
+    tmp[event.target.name]=event.target.checked;
+    setState(tmp);
+    console.log(state);
   };
 
   const onDrop=(picture) => {
-    setState(picture);
+    setImage(picture);
+    console.log(picture);
   };
 
   const handleClick = () => setClick(!click);
@@ -102,11 +116,45 @@ function Navbar() {
       setButton(true);
     }
   };
+  
+  const handleFirstName=(e)=>{
+    setFirstName(e.target.value);
+  }
+  const handleLastName=(e)=>{
+    setLastName(e.target.value);
+  }
+  const handleDateOfBirth=(e)=>{
+    console.log(e.target.value);
+    setDateOfBirth(e.target.value);
+  }
+  const handleLocation=(e)=>{
+    setLocation(e.target.value);
+  }
+  const handleEmail=(e)=>{
+    setEmail(e.target.value);
+  }
+  const handlePassword=(e)=>{
+    setPassword(e.target.value);
+  }
+  const handleNumber=(e)=>{
+    setNumber(e.target.value);
+  }
 
+  const handleSigninCreate=()=>{
+    setOpenSignin(false);
+    var trainer=postNewTrainer(firstName,LastName,dateOfBirth,location,email,
+      password,number,state,image,categories);
+    dispatch(postTrainer(trainer));
+  }
 
+  let state2={}
   useEffect(()=>{
     dispatch(getCategories());
     showButton();
+    { categories.map((cat) => (
+      state2[cat.name]=false
+    ))}
+    setState(state2)
 },[]);
 
   window.addEventListener('resize', showButton);
@@ -116,7 +164,7 @@ function Navbar() {
         <div className='navbar-container'>
           <Link to='/' className='navbar-logo' onClick={closeMobileMenu}>
             GetFit  
-            <i class='fas fa-dumbbell fa-fw' />
+            <i className='fas fa-dumbbell fa-fw' />
           </Link>
           <div className='menu-icon' onClick={handleClick}>
             <i className={click ? 'fas fa-times' : 'fas fa-bars'} />
@@ -146,14 +194,14 @@ function Navbar() {
               </Link>
             </li>
 
-            <li className='nav-item'>
-              <Link
+            <ul className='nav-item'>
+              <li
                 className='nav-links'
                 onClick={closeMobileMenu,handleClickOpen}
               >
                 Sign Up
-              </Link>
-            </li>
+              </li>
+            </ul>
           </ul>
         </div>
       </nav>
@@ -216,6 +264,8 @@ function Navbar() {
             id="firstName"
             label="First Name"
             fullWidth
+            value={firstName}
+            onChange={handleFirstName}
           />
           <TextField
             
@@ -223,6 +273,8 @@ function Navbar() {
             id="lastName"
             label="Last Name"
             fullWidth
+            value={LastName}
+            onChange={handleLastName}
           />
           <br/><br/>
 
@@ -230,8 +282,10 @@ function Navbar() {
           <form className={classes.container} noValidate>
             <TextField
               id="date"
+              onChange={handleDateOfBirth}
               label="Birthday"
               type="date"
+              value={dateOfBirth}
               className={classes.textField}
               InputLabelProps={{
                 shrink: true,
@@ -246,6 +300,8 @@ function Navbar() {
             label="Location"
             type="location"
             fullWidth
+            value={location}
+            onChange={handleLocation}
           />
 
           <TextField
@@ -255,6 +311,8 @@ function Navbar() {
             label="Email Address"
             type="email"
             fullWidth
+            value={email}
+            onChange={handleEmail}
           />
 
           <TextField
@@ -263,6 +321,18 @@ function Navbar() {
             label="Password"
             type="password"
             fullWidth
+            value={password}
+            onChange={handlePassword}
+          />
+
+          <TextField
+            margin="dense"
+            id="number"
+            label="number"
+            type="number"
+            fullWidth
+            value={number}
+            onChange={handleNumber}
           />
           
           {(userState==="Trainer") ? categories.map((cat) => (
@@ -291,7 +361,7 @@ function Navbar() {
           <Button onClick={handleSigninClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleSigninClose} color="primary">
+          <Button onClick={handleSigninCreate} color="primary">
             Create Account
           </Button>
         </DialogActions>
