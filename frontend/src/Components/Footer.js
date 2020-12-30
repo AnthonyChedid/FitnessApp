@@ -11,9 +11,9 @@ function Footer() {
           <div class='footer-link-items'>
             <h2>Links </h2>
             <Link to='/'>Home</Link>
-            <Link to='/Services'>Services</Link>
-            <Link to='/Trainers'>Trainers</Link>
-            <Link to='/SignUp'>Sign Up</Link>
+            <Link to='/aboutus'>About us</Link>
+            <Link to='/contactus'>Contact us</Link>
+            
           </div>
           <div class='footer-link-items'>
             <h2>Our Address</h2>

@@ -56,6 +56,7 @@ export default function TrainerCard(props) {
   const currentUser = useSelector(state => state.currentUser)
   const user = useSelector(state => state.users.users);
   const handleDialog = () => {
+    dispatch(getCurrentUser());
     setOpenDialog(true);
   };
   
@@ -78,6 +79,7 @@ export default function TrainerCard(props) {
     setLength(e.target.value);
   }
   const handleSubmit=()=>{
+    dispatch(getUsers(currentUser.user.email));
     var ses={
       "user":user[0],
       "trainer":props.trainer,
@@ -99,8 +101,8 @@ export default function TrainerCard(props) {
   }
 
   useEffect(()=>{
-    dispatch(getCurrentUser());  
-    dispatch(getUsers(currentUser.user.email))
+      
+   
   },[]);
 
   return (

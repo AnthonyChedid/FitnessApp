@@ -10,6 +10,12 @@
   z-index: 999;
 }
 
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
 .navbar-container {
   display: flex;
   justify-content: center;

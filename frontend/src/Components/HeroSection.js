@@ -1,22 +1,25 @@
 import React from 'react';
 import '../App.css';
 import { Button } from './Button';
+import {Link} from 'react-router-dom';
 import '../Styling/HeroSection.css';
 
 function HeroSection() {
   return (
     <div className='hero-container'>
-      <video src='/videos/video-1.mp4' autoPlay loop muted />
+      <video src='/videos/hero.mp4' autoPlay playsInline muted loop />
       <h1>GET FIT</h1>
       <p>What are you waiting for?</p>
       <div className='hero-btns'>
-        <Button
-          className='btns'
-          buttonStyle='btn--outline'
-          buttonSize='btn--large'
-        >
-          GET STARTED
-        </Button>
+        <Link to = '/Trainers'>
+          <Button
+            className='btns'
+            buttonStyle='btn--outline'
+            buttonSize='btn--large'
+          >
+            GET STARTED
+          </Button>
+        </Link>
         <Button
           className='btns'
           buttonStyle='btn--primary'

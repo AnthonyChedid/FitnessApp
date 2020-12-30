@@ -1,0 +1,45 @@
+.about-page{
+    min-height: 100vh;
+    margin-top: -15rem;
+    position: relative;
+    padding: 12rem 2rem 2rem 2rem;
+  }
+  .about-content{
+    color: #777;
+  }
+  
+  .about-page-hero{
+    height: 100%;
+    width:100%;
+    object-fit: cover;
+    object-position: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    filter: grayscale(1) brightness(20%);
+    z-index: -5;
+  }
+  
+  .about-section{
+    min-height: 30vh;
+  }
+  
+  .about-heading{
+    font-size: 3.5rem;
+    text-align: center;
+    margin: 2rem 0;
+  }
+  
+  .about-paragraph{
+    font-size: 1.5rem;
+    display: block;
+    font-weight: lighter;
+    max-width:90rem;
+    margin: auto;
+  }
+  
+  .about-paragraph:not(:last-child){
+    font-size: 1.5rem;
+    display: block;
+    padding-bottom: 1rem;
+  }
