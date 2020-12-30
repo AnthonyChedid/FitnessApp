@@ -101,7 +101,7 @@ export default function TrainerCard(props) {
   }
 
   useEffect(()=>{
-      
+    dispatch(getUsers(currentUser.user.email));
    
   },[]);
 
