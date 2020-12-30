@@ -103,3 +103,24 @@ export function getUsersApi(){
     .catch((error)=> {throw error})
 
 }
+
+export function getSessionsApi(email){
+    console.log("email inside api call ,",email);
+    return fetch("http://localhost:8085/api/v1/sessions?email="+email,{
+        method: 'GET',
+        headers:{
+            'Content-Type':'application/json',
+         }
+
+    }).then(response => response.json())
+    .catch((error)=> {throw error})
+}
+
+export function postSession(session) {
+    try {
+        return axios.post("http://localhost:8085/api/v1/newsession",session)
+    }
+    catch(e) {
+      console.log(e);
+    }
+}

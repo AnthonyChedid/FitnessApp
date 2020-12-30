@@ -4,7 +4,8 @@ import CategoriesSaga from './CategoriesSaga';
 import newTrainerSaga from './NewTrainerSaga';
 import newUserSaga from './newUserSaga';
 import UsersSaga from './UsersSaga';
-
+import SessionsSaga from './SessionsSaga'
+import newSessionSaga from './PostSessionSaga';
 
 
 export default function* rootSaga(){
@@ -14,5 +15,7 @@ export default function* rootSaga(){
         newTrainerSaga(),
         newUserSaga(),
         UsersSaga(),
+        SessionsSaga(),
+        newSessionSaga(),
     ])
 }

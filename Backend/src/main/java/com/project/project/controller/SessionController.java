@@ -17,9 +17,9 @@ public class SessionController {
     private SessionRepository sessionRepository;
 
     @GetMapping("/sessions")
-    public List<Session> getAllSessions(){
+    public List<Session> getAllSessions(@RequestParam String email){
 
-        return sessionRepository.findAll();
+        return sessionRepository.findByUser_Email(email);
     }
 
     @PostMapping("/newsession")

@@ -1,4 +1,5 @@
-import React from 'react';
+import React,{useEffect} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -11,6 +12,14 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import TextField from '@material-ui/core/TextField';
+import {postSession} from '../actions/postSessionAction';
+import {getCurrentUser} from '../actions/CurrentUserAction';
+import Snackbar from '@material-ui/core/Snackbar';
+import Alert from '@material-ui/lab/Alert';
 const useStyles = makeStyles({
   root: {
     maxWidth: 320,
@@ -32,10 +41,18 @@ const useStyles = makeStyles({
   }
 });
 
+
+
 export default function TrainerCard(props) {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
   const [openDialog, setOpenDialog] = React.useState(false);
+  const [openFormDialog,setOpenFormDialog]=React.useState(false);
+  const [date,setDate]=React.useState(new Date());
+  const [snack,setSnack]=React.useState(false);
+  const [length,setLength]=React.useState("1");
+  const currentUser = useSelector(state => state.currentUser)
 
   const handleDialog = () => {
     setOpenDialog(true);
@@ -44,6 +61,43 @@ export default function TrainerCard(props) {
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
+
+  const handleFormDialog=()=>{
+    setOpen(true);
+  }
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleApointment=(e)=>{
+    setDate(e.target.value);
+  }
+  const handleLength=(e)=>{
+    setLength(e.target.value);
+  }
+  const handleSubmit=()=>{
+    var ses={"user":currentUser.user,
+      "trainer":props.trainer,
+      "sessionDate":date.toString(),
+      "length":length
+    }
+    console.log(ses);
+    setOpen(false);
+    
+    dispatch(postSession(ses));
+    setSnack(true);
+  }
+
+  
+
+  const handleSuccessClick=()=>{
+    setSnack(false);
+  }
+
+  useEffect(()=>{
+    dispatch(getCurrentUser());  
+  },[]);
 
   return (
     <Card className={classes.root}>
@@ -65,7 +119,7 @@ export default function TrainerCard(props) {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary">
+        <Button size="small" color="primary" onClick={handleFormDialog}>
           Book Session
         </Button>
         <Button size="small" color="primary" onClick={handleDialog}>
@@ -104,6 +158,60 @@ export default function TrainerCard(props) {
             </DialogContent>
           </Dialog>
       </CardActions>
+      <div>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        
+        aria-labelledby="draggable-dialog-title"
+      >
+        <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
+          Book
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            
+          </DialogContentText>
+          <DialogContent>
+          <TextField
+            fullWidth
+            onChange={handleApointment}
+            id="datetime-local"
+            label="Next appointment"
+            type="datetime-local"
+            defaultValue="2017-05-24T10:30"
+            className={classes.textField}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+      <TextField
+            onChange={handleLength}
+            margin="dense"
+            id="number"
+            label="length"
+            type="number"
+            fullWidth
+            
+          />
+      </DialogContent>
+        </DialogContent>
+        <DialogActions>
+          <Button autoFocus onClick={handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleSubmit} color="primary">
+            Book
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+    <Snackbar open={snack} autoHideDuration={3000} onClose={handleSuccessClick}>
+        <Alert onClose={handleSuccessClick} severity="success">
+          Session booked
+        </Alert>
+    </Snackbar>
     </Card>
+    
   );
 }

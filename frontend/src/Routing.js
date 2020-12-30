@@ -12,8 +12,9 @@ function Routing(){
                 <Route path="/aboutus"  component={Aboutus}/>
                 <Route path="/contactus" component={Contactus}/>
                 <Route path="/trainers" component={Trainers}/>
+                <Route path="/sessions" component={Sessions}/>
                 <Route path="/" exact component={Landing}/>
-                <Route path="/sessions" componen={Sessions}/>
+                
             </Switch>
         
     )

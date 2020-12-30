@@ -24,7 +24,7 @@ public class Session {
     @JoinColumn(name="trainer_id")
     private Trainer trainer;
 
-    private Date sessionDate;
+    private String sessionDate;
     private String length;
 
 }

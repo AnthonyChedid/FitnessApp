@@ -27,6 +27,7 @@ import {postNewTrainer,postNewUser,checkLogin} from './SignupFunction';
 import {postTrainer} from '../actions/addTrainerAction'
 import {postUser} from '../actions/addUserAction';
 import {getUsers} from '../actions/UsersAction';
+import {setCurrentUser} from '../actions/CurrentUserAction';
 
 //import postNewTrainer from './SignupFunction';
 
@@ -76,13 +77,9 @@ function Navbar() {
   const [open, setOpen] = React.useState(false);
   const [createUserSuccess,setCreateUserSuccess]=React.useState(false);
   const [LoginUserSuccess,setLoginUserSuccess]=React.useState(false);
-  const [currentUser,setUser]=React.useState(false);
+  const currentUser=useSelector(state=>state.currentUser.user);
   
   const classes = useStyles();
-
-
-
- 
 
   const handleClickOpen=() => {
     setOpenLogin(true);
@@ -166,8 +163,9 @@ function Navbar() {
       setLoginUserSuccess(true);
     }else{
       setOpenLogin(false);
-      setUser(tmp);
+      dispatch(setCurrentUser(tmp));
       setCreateUserSuccess(true);
+      console.log("currentUser",currentUser)
     }
   }
 
@@ -183,8 +181,13 @@ function Navbar() {
         password);
       dispatch(postUser(user));
       setCreateUserSuccess(true);
+      dispatch(setCurrentUser(user));
 
     }
+  }
+
+  const handleOpenProfile=()=>{
+    
   }
 
   let state2={}
@@ -196,6 +199,7 @@ function Navbar() {
     ))}
     setState(state2);
     dispatch(getUsers());
+    
 },[]);
 
   window.addEventListener('resize', showButton);
