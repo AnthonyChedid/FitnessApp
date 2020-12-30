@@ -136,7 +136,7 @@ export default function Trainers() {
                             <TrainerCard trainer={trainer} key={trainer.id} />
                             )) }
                         
-                        {trainers.length===0 && <p>No trainers availble </p>}
+                        {trainers.length===0 && <p>No trainers available </p>}
                         
                     </Grid>
                 </Grid>

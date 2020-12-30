@@ -26,6 +26,12 @@ public class UserController {
         return userRepository.findAll();
     }
 
+    @GetMapping("/userbyemail")
+    public List<User> getUser(@RequestParam String email){
+
+        return userRepository.findByEmail(email);
+    }
+
     @PostMapping("/adduser")
     @CrossOrigin(origins ="http://localhost:3000")
     public User createUser (@RequestBody User user) {

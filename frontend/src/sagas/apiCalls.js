@@ -118,9 +118,21 @@ export function getSessionsApi(email){
 
 export function postSession(session) {
     try {
+        console.log("entering post");
         return axios.post("http://localhost:8085/api/v1/newsession",session)
     }
     catch(e) {
       console.log(e);
     }
+}
+
+export function getUserByEmailApi(email){
+    return fetch("http://localhost:8085/api/v1/userbyemail?email="+email,{
+        method: 'GET',
+        headers:{
+            'Content-Type':'application/json',
+         }
+
+    }).then(response => response.json())
+    .catch((error)=> {throw error})
 }

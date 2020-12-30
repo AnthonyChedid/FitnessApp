@@ -1,12 +1,17 @@
 import {call,put,takeEvery} from 'redux-saga/effects';
-import {getUsersApi} from './apiCalls';
+import {getUsersApi,getUserByEmailApi} from './apiCalls';
 
 function* fetchUsers(action){
     
     try{
-        const users=yield call(getUsersApi);
+        let users;
+        if(action.payload===""){
+            users = yield call(getUsersApi);
+        }else{
+            users = yield call(getUserByEmailApi,action.payload);
+        }
         yield put({type: 'FETCH_USERS_SUCCESS',users:users});
-
+        
     }catch(e){
         yield put({type: 'FETCH_USERS_FAILED',message:e.message });
     }

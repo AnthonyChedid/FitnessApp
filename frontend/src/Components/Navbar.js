@@ -198,7 +198,7 @@ function Navbar() {
       state2[cat.name]=false
     ))}
     setState(state2);
-    dispatch(getUsers());
+    dispatch(getUsers(""));
     
 },[]);
 
@@ -296,7 +296,7 @@ function Navbar() {
             Log in
           </Button>
           <Button onClick={handleSignin} color="primary">
-            Sign in
+            Sign up
           </Button>
         </DialogActions>
       </Dialog>

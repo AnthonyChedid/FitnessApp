@@ -20,6 +20,7 @@ import {postSession} from '../actions/postSessionAction';
 import {getCurrentUser} from '../actions/CurrentUserAction';
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
+import {getUsers} from '../actions/UsersAction';
 const useStyles = makeStyles({
   root: {
     maxWidth: 320,
@@ -53,7 +54,7 @@ export default function TrainerCard(props) {
   const [snack,setSnack]=React.useState(false);
   const [length,setLength]=React.useState("1");
   const currentUser = useSelector(state => state.currentUser)
-
+  const user = useSelector(state => state.users.users);
   const handleDialog = () => {
     setOpenDialog(true);
   };
@@ -77,7 +78,8 @@ export default function TrainerCard(props) {
     setLength(e.target.value);
   }
   const handleSubmit=()=>{
-    var ses={"user":currentUser.user,
+    var ses={
+      "user":user[0],
       "trainer":props.trainer,
       "sessionDate":date.toString(),
       "length":length
@@ -87,6 +89,7 @@ export default function TrainerCard(props) {
     
     dispatch(postSession(ses));
     setSnack(true);
+    console.log(user);
   }
 
   
@@ -97,6 +100,7 @@ export default function TrainerCard(props) {
 
   useEffect(()=>{
     dispatch(getCurrentUser());  
+    dispatch(getUsers(currentUser.user.email))
   },[]);
 
   return (
