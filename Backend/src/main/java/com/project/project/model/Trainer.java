@@ -23,8 +23,8 @@ public class Trainer {
     private String email;
     private String password;
     
-    @Lob
-    private byte[] image;
+
+    private String image;
 
     @ManyToMany
     @JoinTable(
@@ -37,7 +37,7 @@ public class Trainer {
 
     }
 
-    public Trainer(String name, Date dateOfBirth, String location, String email, String password, String number, byte[] image, Set<Category> categories) {
+    public Trainer(String name, Date dateOfBirth, String location, String email, String password, String image, Set<Category> categories) {
         this.name = name;
         this.dateOfBirth = dateOfBirth;
         this.location = location;
@@ -73,7 +73,7 @@ public class Trainer {
     }
 
 
-    public byte[] getImage() {
+    public String getImage() {
         return image;
     }
 

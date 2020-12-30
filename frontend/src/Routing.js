@@ -4,7 +4,7 @@ import Landing from './Components/Landing';
 import Aboutus from './Components/Aboutus';
 import Contactus from './Components/Contactus';
 import Trainers from './Components/Trainers';
-
+import Sessions from './Components/Sessions';
 function Routing(){
     return(
         
@@ -13,6 +13,7 @@ function Routing(){
                 <Route path="/contactus" component={Contactus}/>
                 <Route path="/trainers" component={Trainers}/>
                 <Route path="/" exact component={Landing}/>
+                <Route path="/sessions" componen={Sessions}/>
             </Switch>
         
     )

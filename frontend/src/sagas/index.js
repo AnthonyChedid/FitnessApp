@@ -3,6 +3,7 @@ import TrainersSaga from './TrainersSaga';
 import CategoriesSaga from './CategoriesSaga';
 import newTrainerSaga from './NewTrainerSaga';
 import newUserSaga from './newUserSaga';
+import UsersSaga from './UsersSaga';
 
 
 
@@ -12,5 +13,6 @@ export default function* rootSaga(){
         CategoriesSaga(),
         newTrainerSaga(),
         newUserSaga(),
+        UsersSaga(),
     ])
 }

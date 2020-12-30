@@ -23,9 +23,10 @@ import ImageUploader from 'react-images-upload';
 import { Button} from './Button' ;
 
 import '../Styling/Navbar.css';
-import {postNewTrainer,postNewUser} from './SignupFunction';
+import {postNewTrainer,postNewUser,checkLogin} from './SignupFunction';
 import {postTrainer} from '../actions/addTrainerAction'
 import {postUser} from '../actions/addUserAction';
+import {getUsers} from '../actions/UsersAction';
 
 //import postNewTrainer from './SignupFunction';
 
@@ -60,7 +61,7 @@ function Navbar() {
   const [userState, setUserState] = React.useState('user');
   const [click, setClick] = React.useState(false);
   const categories = useSelector(state => state.categories.categories);
- 
+  const allUsers= useSelector(state =>state.users.users);
   const [state, setState] = React.useState([]);
   
   const [button, setButton] = React.useState(true);
@@ -74,17 +75,14 @@ function Navbar() {
   const [number,setNumber]=React.useState("");
   const [open, setOpen] = React.useState(false);
   const [createUserSuccess,setCreateUserSuccess]=React.useState(false);
+  const [LoginUserSuccess,setLoginUserSuccess]=React.useState(false);
+  const [currentUser,setUser]=React.useState(false);
   
   const classes = useStyles();
 
 
 
-  const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setOpen(false);
-  };
+ 
 
   const handleClickOpen=() => {
     setOpenLogin(true);
@@ -154,6 +152,23 @@ function Navbar() {
   }
   const handleSuccessClick=()=>{
     setCreateUserSuccess(false);
+    setLoginUserSuccess(false);
+  }
+
+  const handleClickOpenSessions=()=>{
+    
+  }
+
+  const handleLogingIn=()=>{
+    var tmp=checkLogin(email,password,allUsers);
+    console.log("tmp : ",tmp);
+    if(tmp===false){
+      setLoginUserSuccess(true);
+    }else{
+      setOpenLogin(false);
+      setUser(tmp);
+      setCreateUserSuccess(true);
+    }
   }
 
   const handleSigninCreate=()=>{
@@ -179,7 +194,8 @@ function Navbar() {
     { categories.map((cat) => (
       state2[cat.name]=false
     ))}
-    setState(state2)
+    setState(state2);
+    dispatch(getUsers());
 },[]);
 
   window.addEventListener('resize', showButton);
@@ -220,12 +236,20 @@ function Navbar() {
             </li>
 
             <ul className='nav-item'>
-              <li
+              {(currentUser===false? <li
                 className='nav-links'
                 onClick={closeMobileMenu,handleClickOpen}
               >
                 Sign Up
-              </li>
+              </li> : <li
+                className='nav-item'
+                onClick={closeMobileMenu,handleClickOpenSessions}
+              >
+                <Link to="/sessions" className='nav-links' onClick={closeMobileMenu}>
+                  Profile
+                </Link>
+              </li>)}
+              
             </ul>
           </ul>
         </div>
@@ -241,17 +265,22 @@ function Navbar() {
           <TextField
             autoFocus
             margin="dense"
-            id="name"
+            id="email1"
             label="Email Address"
             type="email"
             fullWidth
+            value={email}
+            onChange={handleEmail}
           />
+
           <TextField
             margin="dense"
-            id="pass"
+            id="pass1"
             label="Password"
             type="password"
             fullWidth
+            value={password}
+            onChange={handlePassword}
           />
         </DialogContent>
         
@@ -259,7 +288,7 @@ function Navbar() {
           <Button onClick={handleLoginClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleLoginClose} color="primary">
+          <Button onClick={handleLogingIn} color="primary">
             Log in
           </Button>
           <Button onClick={handleSignin} color="primary">
@@ -274,13 +303,13 @@ function Navbar() {
         <DialogTitle id="form-dialog-title">Sign up</DialogTitle>
         <DialogContent>
 
-        <FormControl component="fieldset">
+        {/* <FormControl component="fieldset">
           <FormLabel component="legend">Account Type</FormLabel>
           <RadioGroup aria-label="Type" value={userState} onChange={handleChange}>
             <FormControlLabel value="User" control={<Radio />} label="User" />
             <FormControlLabel value="Trainer" control={<Radio />} label="Trainer" />
           </RadioGroup>
-        </FormControl>
+        </FormControl> */}
 
 
           <TextField
@@ -360,7 +389,7 @@ function Navbar() {
             onChange={handleNumber}
           />
           
-          {(userState==="Trainer") ? categories.map((cat) => (
+          {/* {(userState==="Trainer") ? categories.map((cat) => (
             <FormControlLabel
               control={<Checkbox checked={state[cat.name]} onChange={handleCheckboxChange} name={cat.name} />}
               label={cat.name}
@@ -371,6 +400,7 @@ function Navbar() {
             singleImage={true}
             withPreview={true}
             withIcon={true}
+            value={image}
             buttonText="Choose Image"
             label="Max file size: 5mb, accepted: jpg, png"
             buttonText='Choose images'
@@ -379,7 +409,7 @@ function Navbar() {
             maxFileSize={5242880}/>
           
           : console.log("machi kmn")}
-          
+           */}
         </DialogContent>
         
         <DialogActions>
@@ -396,7 +426,13 @@ function Navbar() {
         <Alert onClose={handleSuccessClick} severity="success">
           welcome
         </Alert>
+    </Snackbar>
+    <Snackbar open={LoginUserSuccess} autoHideDuration={3000} onClose={handleSuccessClick}>
+        <Alert onClose={handleSuccessClick} severity="error">
+          wrong email or password
+        </Alert>
       </Snackbar>
+
     </div>
   );
 }

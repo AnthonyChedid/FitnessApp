@@ -29,3 +29,15 @@ export function postNewUser(firstName,lastName,date,location,email,password){
     };
     return user;
 }
+
+export function checkLogin(email,password,allUsers){
+    console.log("allUsers : ",allUsers);
+    for(var i=0;i<allUsers.length;++i){
+        if(allUsers[i].email===email){
+            if(allUsers[i].password===password){
+                return allUsers[i];
+            }
+        }
+    }
+    return false;
+}

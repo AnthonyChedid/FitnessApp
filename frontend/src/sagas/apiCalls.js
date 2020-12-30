@@ -91,3 +91,15 @@ export function postUser(user) {
       console.log(e);
     }
 }
+
+export function getUsersApi(){
+    return fetch('http://localhost:8085/api/v1/users',{
+        method: 'GET',
+        headers:{
+            'Content-Type':'application/json',
+         }
+
+    }).then(response => response.json())
+    .catch((error)=> {throw error})
+
+}

@@ -1,6 +1,7 @@
 package com.project.project.controller;
 
 import com.project.project.model.Category;
+import com.project.project.model.DummyTrainer;
 import com.project.project.model.Trainer;
 import com.project.project.repositorty.TrainerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,23 +46,14 @@ public class TrainerController {
         return trainerRepository.findByNameStartingWithIgnoreCaseAndCategories_Name(name, type);
     }
 
-//
-//    @PostMapping("/addtrainer")
-//    @CrossOrigin(origins ="http://localhost:3000")
-//    public Trainer createTrainer (@RequestParam String name,@RequestParam Date dateOfBirth,
-//                                 @RequestParam String location,@RequestParam String email,@RequestParam String password,@RequestParam MultipartFile image,
-//                                 @RequestParam Set<Category > categories){
-//
-//        try{
-//            Trainer trainer=new Trainer(name,dateOfBirth,location,email,password, image.getBytes(), categories);
-//            return trainerRepository.save(trainer);
-//        }
-//        catch(Exception e) {
-//            e.printStackTrace();
-//            return  null;
-//        }
-//
-//    }
+
+    @PostMapping("/addtrainer")
+    @CrossOrigin(origins ="http://localhost:3000")
+    public Trainer createTrainer (@RequestBody Trainer trainer){
+
+            return trainerRepository.save(trainer);
+
+    }
 
 
 }
